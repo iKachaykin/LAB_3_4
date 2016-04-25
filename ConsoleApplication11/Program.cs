@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,7 @@ namespace ConsoleApplication11
 {
     abstract class Vehicle : IComparable
     {
-        protected double[] coordinates;
-        protected double price, max_speed;
+        protected double price, max_speed, coordX, coordY;
         protected int year;
         protected string name;
         public string Name
@@ -79,62 +79,56 @@ namespace ConsoleApplication11
             }
         }
         public abstract void CoordinatesDetermination(params double[] coords);
-        public abstract int CompareTo(object obj);
+        public int CompareTo(object obj) 
+        {
+            Vehicle other = (Vehicle)obj;
+            if (this.price > other.price)
+            {
+                return 1;
+            }
+            else if (this.price < other.price)
+            {
+                return -1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
         public override string ToString()
         {
-            return String.Concat("Название: ", Convert.ToString(this.name), ". Дата выпуска: ", Convert.ToString(this.year), " .\nМаксимальная скорость: ", Convert.ToString(this.max_speed), ". Цена: ", Convert.ToString(this.price), " .\nТекущие координаты: ", this.Coordinates);
+            return String.Concat("Название: ", Convert.ToString(this.name), ". Дата выпуска: ", Convert.ToString(this.year), " .\nМаксимальная скорость: ", Convert.ToString(this.max_speed), "км/ч. Цена: ", Convert.ToString(this.price), "$.\nТекущие координаты: ", this.Coordinates);
         }
     }
     class Car : Vehicle
     {
-
+        private double[] coordinates = new double[2];
         public Car(string name, double price, double max_speed, int year, double coordX, double coordY)
         {
             this.name = name;
             this.price = price;
             this.year = year;
             this.max_speed = max_speed;
-            this.coordinates = new double[2];
-            this.coordinates[0] = coordX;
-            this.coordinates[1] = coordY;
+            this.coordX = coordX;
+            this.coordY = coordY;
         }
         override public string Coordinates
         {
             get
             {
-                return "(" + Convert.ToString(this.coordinates[0]) + " , " + Convert.ToString(this.Coordinates[1]) + ")";
-            }
-        }
-        override public int CompareTo(object obj)
-        {
-            Car other = (Car)obj;
-            if (this.max_speed > other.max_speed)
-            {
-                return 1;
-            }
-            else if (this.max_speed < other.max_speed)
-            {
-                return -1;
-            }
-            else 
-            {
-                return 0;
+                return String.Concat("(", Convert.ToString(this.coordX), " , ", Convert.ToString(this.coordY), ")");
             }
         }
         public override void CoordinatesDetermination(params double[] coords)
         {
-            int i = 0;
             if (coords.Length > 2)
             {
                 throw new InvalidOperationException();
             }
             else
             {
-                foreach (double coordinate in coords)
-                {
-                    this.coordinates[i] = coordinate;
-                    i++;
-                }
+                this.coordX = coords[0];
+                this.coordY = coords[1];
             }
         }
         public override string ToString()
@@ -145,6 +139,7 @@ namespace ConsoleApplication11
     }
     class Plane : Vehicle
     {
+        private double height;
         int number_of_passengers;
         public Plane(string name, double price, double max_speed, int year, int number_of_passengers, double coordX, double coordY, double height)
         {
@@ -153,15 +148,14 @@ namespace ConsoleApplication11
             this.year = year;
             this.max_speed = max_speed;
             this.number_of_passengers = number_of_passengers;
-            this.coordinates = new double[3];
-            this.coordinates[0] = coordX;
-            this.coordinates[1] = coordY;
-            this.coordinates[2] = height;
+            this.coordX = coordX;
+            this.coordY = coordY;
+            this.height = height;
         }
         public double Height
         {
             get {
-                return this.coordinates[2];
+                return this.height;
             }
         }
         public int Capacity
@@ -186,39 +180,21 @@ namespace ConsoleApplication11
         {
             get
             {
-                return "(" + Convert.ToString(this.coordinates[0]) + " , " + Convert.ToString(this.Coordinates[1]) + " , " + Convert.ToString(this.coordinates[2]) + ")";
+                return String.Concat("(", Convert.ToString(this.coordX), " , " + Convert.ToString(this.coordX), " , " , Convert.ToString(this.height), ")");
             }
         }
-        override public int CompareTo(object obj)
-        {
-            Plane other = (Plane)obj;
-            if (this.Height > other.Height)
-            {
-                return 1;
-            }
-            else if (this.Height < other.Height)
-            {
-                return -1;
-            }
-            else 
-            {
-                return 0;
-            }
-        }
+
         public override void CoordinatesDetermination(params double[] coords)
         {
-            int i = 0;
             if (coords.Length > 3)
             {
                 throw new InvalidOperationException();
             }
             else
             {
-                foreach (double coordinate in coords)
-                {
-                    this.coordinates[i] = coordinate;
-                    i++;
-                }
+                this.coordX = coords[0];
+                this.coordY = coords[1];
+                this.height = coords[2];
             }
         }
         public override string ToString()
@@ -228,8 +204,8 @@ namespace ConsoleApplication11
     }
     class Ship : Vehicle
     {
-        string port;
-        int number_of_passengers;
+        private string port;
+        private int number_of_passengers;
         public Ship(string name, double price, double max_speed, int year, int number_of_passengers, double coordX, double coordY, string port)
         {
             this.name = name;
@@ -237,9 +213,8 @@ namespace ConsoleApplication11
             this.year = year;
             this.max_speed = max_speed;
             this.number_of_passengers = number_of_passengers;
-            this.coordinates = new double[3];
-            this.coordinates[0] = coordX;
-            this.coordinates[1] = coordY;
+            this.coordX = coordX;
+            this.coordY = coordY;
             this.port = port;
         }
         public int Capacity
@@ -284,39 +259,19 @@ namespace ConsoleApplication11
         {
             get
             {
-                return "(" + Convert.ToString(this.coordinates[0]) + " , " + Convert.ToString(this.Coordinates[1]) + ")";
+                return String.Concat("(" , Convert.ToString(this.coordX), " , ", Convert.ToString(this.coordY), ")");
             }
         }
         public override void CoordinatesDetermination(params double[] coords)
         {
-            int i = 0;
             if (coords.Length > 2)
             {
                 throw new InvalidOperationException();
             }
             else
             {
-                foreach (double coordinate in coords)
-                {
-                    this.coordinates[i] = coordinate;
-                    i++;
-                }
-            }
-        }
-        override public int CompareTo(object obj)
-        {
-            Ship other = (Ship) obj;
-            if (Math.Sqrt(this.coordinates[0] * this.coordinates[0] + this.coordinates[1] * this.coordinates[1]) > Math.Sqrt(other.coordinates[0] * other.coordinates[0] + other.coordinates[1] * other.coordinates[1]))
-            {
-                return 1;
-            }
-            else if (Math.Sqrt(this.coordinates[0] * this.coordinates[0] + this.coordinates[1] * this.coordinates[1]) < Math.Sqrt(other.coordinates[0] * other.coordinates[0] + other.coordinates[1] * other.coordinates[1]))
-            {
-                return -1;
-            }
-            else
-            {
-                return 0;
+                this.coordX = coords[0];
+                this.coordY = coords[1];
             }
         }
         
@@ -325,7 +280,31 @@ namespace ConsoleApplication11
     {
         static void Main(string[] args)
         {
+            Ship tit = new Ship("Титаник", 10000000, 80, 1950, 300, 894, 0, "Южный порт Лондона");
+            Ship ar = new Ship("Аризона", 1000000, 90, 1930, 500, 89.2, 123, "Северный порт Калифорнийского побережья");
+            Car ben = new Car("Bentley Continental GT", 800000, 250, 2014, 23, 45);
+            Car merc = new Car("Mercedes S-Klasse Coupe", 750000, 300, 2016, 45, 21);
+            Plane boe = new Plane("Boeing 747", 200000000, 900, 2010, 500, 98, 24, 9);
+            Plane ab = new Plane("Airbus A380", 389000000, 1000, 2005, 890, 87, 2, 8);
+            ArrayList vehicleList = new ArrayList();
+            vehicleList.Add(tit);
+            vehicleList.Add(ar);
+            vehicleList.Add(ben);
+            vehicleList.Add(merc);
+            vehicleList.Add(boe);
+            vehicleList.Add(ab);
+            foreach (object veh in vehicleList)
+            {
+                Console.WriteLine(veh);
+            }
+            vehicleList.Sort();
+            Console.WriteLine("\n\nРезультаты после сортировки по цене:\n\n");
+            foreach (object veh in vehicleList)
+            {
+                Console.WriteLine(veh);
+            }
 
+            Console.ReadKey();
         }
     }
 }
