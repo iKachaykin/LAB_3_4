@@ -1,0 +1,6 @@
+D:\Учеба\Программирование\Визуальное\Лабы\ConsoleApplication11\ConsoleApplication11\bin\Debug\ConsoleApplication11.exe.config
+D:\Учеба\Программирование\Визуальное\Лабы\ConsoleApplication11\ConsoleApplication11\obj\Debug\ConsoleApplication11.csprojResolveAssemblyReference.cache
+D:\Учеба\Программирование\Визуальное\Лабы\ConsoleApplication11\ConsoleApplication11\bin\Debug\ConsoleApplication11.exe
+D:\Учеба\Программирование\Визуальное\Лабы\ConsoleApplication11\ConsoleApplication11\bin\Debug\ConsoleApplication11.pdb
+D:\Учеба\Программирование\Визуальное\Лабы\ConsoleApplication11\ConsoleApplication11\obj\Debug\ConsoleApplication11.exe
+D:\Учеба\Программирование\Визуальное\Лабы\ConsoleApplication11\ConsoleApplication11\obj\Debug\ConsoleApplication11.pdb
